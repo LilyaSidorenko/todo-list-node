@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Todo list</title>
+
+</head>
+<body>
+<link href="style.css" rel="stylesheet">
+<div class="app">
+	<a href="/categories" class="logout">Back to categories</a>
+	<form action="/work-tasks/tasks" method="POST" class="form">
+		<input class="input form__input" name="task">
+		<button class="btn form__submit-btn" type="submit" >Add</button>
+	</form>
+	<ul class="tasks todo-list">
+		<% for(var i=0; i<workTasks.length; i++) {%>
+		<li class="task todo-list__item <%= workTasks[i].classDone %>">
+			<button class="btn done" id="">Done</button>
+			<button class="todo-list__item-content"><%= workTasks[i].task %></button>
+			<button class="btn todo-list__item-remove delete" id=""></button>
+		</li>
+		<% } %>
+	</ul>
+
+</div>
+<script src="work-tasks.js"></script>
+
+</body>
+</html>
