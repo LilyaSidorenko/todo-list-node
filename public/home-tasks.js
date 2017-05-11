@@ -1,48 +1,84 @@
-var update = document.getElementsByClassName("done")
-for (var j = 0; j < update.length; j++) {
+function itemTemplate(data) {
+    var item = '<li class="task todo-list__item">';
+    item += '<button class="btn done">Done</button>&nbsp;';
+    item += '<button class="todo-list__item-content">'+(data.item.title)+'</button>';
+    item += '<button class="btn todo-list__item-remove delete"></button>';
+    item += '</li>';
 
-    update[j].addEventListener("click", function () {
-        fetch("/home-tasks/tasks", {
-            method: "put",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                "task": this.nextElementSibling.innerHTML,
-                "classDone": "class-done"
-
-            })
-        })
-            .then(res => {
-                if (res.ok) return res.json();
-            })
-            .then(data => {
-                console.log(data);
-                window.location.reload(true)
-            })
-    });
+    return item;
 }
+var add = document.getElementById("todo");
+var task = document.getElementById("taskItem");
+var update = document.getElementsByClassName("done");
 var del = document.getElementsByClassName("delete");
+var taskList = document.getElementsByClassName("task");
+var updateTask = function () {
 
-for (var i = 0; i < del.length; i++) {
-    del[i].addEventListener("click", function () {
-        fetch("/home-tasks/tasks", {
-            method: "delete",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "task": this.previousElementSibling.innerHTML
+    for (var j = 0; j < update.length; j++) {
+        update[j].addEventListener("click", function () {
+            fetch("/home-tasks/tasks", {
+                method: "put",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    "title": this.nextElementSibling.innerHTML,
+                    "classDone": "class-done"
+                })
             })
+                .then(res => {
+                    if (res.ok) return res.json();
+                })
+                .then(data => {
+                    this.parentElement.classList.add('class-done');
+                })
+        });
+    }
+};
+var removeTask = function () {
 
+    for (var i = 0; i < del.length; i++) {
+        del[i].addEventListener("click", function () {
+            fetch("/home-tasks/tasks", {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "title": this.previousElementSibling.innerHTML
+                })
+
+            })
+                .then(res => {
+                    if (res.ok) return res.json()
+                })
+                .then(data => {
+                    task.removeChild(this.parentElement)
+                })
         })
-            .then(res => {
-                if (res.ok) return res.json()
-            })
-            .then(data => {
-                console.log(data);
-                window.location.reload(true)
-            })
+    }
+};
+add.addEventListener("submit", function (e) {
+    e.preventDefault();
+    fetch("/home-tasks/tasks", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "title": document.getElementById("title").value,
+            "type": "home"
+        })
     })
-}
+        .then(res => {
+            if (res.ok) return res.json();
+        })
+        .then(data => {
 
+            task.insertAdjacentHTML('afterbegin', itemTemplate(data));
+            document.getElementById("title").value = '';
+            removeTask();
+            updateTask();
+        })
 
-
+});
+removeTask();
+updateTask();

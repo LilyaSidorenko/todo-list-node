@@ -1,0 +1,9 @@
+<ul class="tasks todo-list" id="taskItem">
+	<% for(var i=0; i< items.length; i++) {%>
+	<li class="task todo-list__item <%= items[i].classDone %>" >
+		<button class="btn done">Done</button>
+		<button class="todo-list__item-content"><%= items[i].title %></button>
+		<button class="btn todo-list__item-remove delete" id=""></button>
+	</li>
+	<% } %>
+</ul>
