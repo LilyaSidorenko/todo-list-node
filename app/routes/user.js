@@ -1,3 +1,5 @@
+var isLoggedIn = require('../../public/isloginin.js');
+
 module.exports = (app, passport) => {
 
     app.get('/', (req, res) => {
@@ -31,10 +33,3 @@ module.exports = (app, passport) => {
 
 
 };
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
-}

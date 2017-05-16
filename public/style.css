@@ -348,6 +348,6 @@ button:hover {
 .class-done .todo-list__item-content{
     text-decoration: line-through;
 }
-.class-done .done {
+.class-done .done, .class-delete {
     display: none;
 }

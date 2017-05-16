@@ -11,7 +11,8 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 dotenv.load({ path: '.env' });
 
-mongoose.connect(process.env.MONGODB_URI);
+var db = mongoose.connect(process.env.MONGODB_URI);
+
 require('./config/passport')(passport);
 
 app.use(morgan('dev'));
@@ -31,7 +32,7 @@ app.use(passport.session());
 app.use(flash());
 
 require('./app/routes/user.js')(app, passport);
-require('./app/routes/home-tasks.js')(app, passport);
+require('./app/routes/home-tasks.js')(app, db);
 require('./app/routes/work-tasks.js')(app, passport);
 
 app.listen(port);

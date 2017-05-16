@@ -53,7 +53,7 @@ var removeTask = function () {
                     if (res.ok) return res.json()
                 })
                 .then(data => {
-                    task.removeChild(this.parentElement)
+                    this.parentElement.classList.add('class-delete');
                 })
         })
     }

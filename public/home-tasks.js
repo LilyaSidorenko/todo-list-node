@@ -11,7 +11,6 @@ var add = document.getElementById("todo");
 var task = document.getElementById("taskItem");
 var update = document.getElementsByClassName("done");
 var del = document.getElementsByClassName("delete");
-var taskList = document.getElementsByClassName("task");
 var updateTask = function () {
 
     for (var j = 0; j < update.length; j++) {
@@ -51,13 +50,14 @@ var removeTask = function () {
                     if (res.ok) return res.json()
                 })
                 .then(data => {
-                    task.removeChild(this.parentElement)
+                    this.parentElement.classList.add('class-delete');
                 })
         })
     }
 };
 add.addEventListener("submit", function (e) {
     e.preventDefault();
+
     fetch("/home-tasks/tasks", {
         method: 'POST',
         headers: {
@@ -69,6 +69,7 @@ add.addEventListener("submit", function (e) {
         })
     })
         .then(res => {
+
             if (res.ok) return res.json();
         })
         .then(data => {
