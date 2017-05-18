@@ -8,11 +8,11 @@ module.exports = (app, passport) => {
 
     //home tasks
     app.get('/home-tasks', isLoggedIn, (req, res) => {
-        currentUserId = res.user._id;
+        currentUserId = req.user._id.toString();
         currentType = "home";
         console.log(currentUserId)
 
-        mongoose.connection.db.collection('items').find({userId: currentUserId.toString(), type: currentType}).sort({_id : -1}).toArray((err, result) => {
+        mongoose.connection.db.collection('items').find({userId: currentUserId, type: currentType}).sort({_id : -1}).toArray((err, result) => {
             if (err) return res.sendStatus(500, err);
             res.render("home-tasks.ejs", {items: result, user: req.user});
         });

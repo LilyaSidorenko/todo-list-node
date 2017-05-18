@@ -11,7 +11,7 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 dotenv.load({ path: '.env' });
 
-var db = mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
 
 require('./config/passport')(passport);
 
@@ -25,14 +25,18 @@ app.set('view engine', 'ejs');
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+}));
 app.use(flash());
 
 require('./app/routes/user.js')(app, passport);
-require('./app/routes/home-tasks.js')(app, db);
+require('./app/routes/home-tasks.js')(app, passport);
 require('./app/routes/work-tasks.js')(app, passport);
 
 app.listen(port);

@@ -5,9 +5,9 @@ module.exports = (app, passport) => {
     app.get('/', (req, res) => {
         res.render('index.ejs', { message: req.flash('loginMessage') });
     });
-    app.get('/categories', isLoggedIn, function(req, res) {
-        res.render('categories.ejs', { message: req.flash('loginMessage') });
-    });
+    // app.get('/categories', isLoggedIn, function(req, res) {
+    //     res.render('categories.ejs', { message: req.flash('loginMessage') });
+    // });
 
     // logout
     app.get('/logout', (req, res) => {
@@ -15,7 +15,7 @@ module.exports = (app, passport) => {
         res.redirect('/');
     });
     app.post('/', passport.authenticate('local-login', {
-        successRedirect : '/categories',
+        successRedirect : '/home-tasks',
         failureRedirect : '/',
         failureFlash : true
     }));
