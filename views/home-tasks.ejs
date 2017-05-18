@@ -4,11 +4,11 @@
 <body>
 <div class="app">
     <a href="/categories" class="logout">Back to categories</a>
-    <form action="/home-tasks/tasks" method="POST" class="form" id="todo">
+    <form action="/home-tasks" method="POST" class="form" id="todo">
         <% include partials/task-inputs.ejs %>
     </form>
     <% include partials/todo-list.ejs %>
-
+<%= user %>
 </div>
 <script src="home-tasks.js"></script>
 
