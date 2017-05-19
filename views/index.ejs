@@ -3,6 +3,7 @@
 <% include partials/head.ejs %>
 
 <body>
+<div id="main-container">
     <div id="login">
 
         <h1>Login</h1>
@@ -10,14 +11,17 @@
         <% include partials/mesages.ejs %>
 
         <!-- LOGIN FORM -->
-        <form action="/" method="post" name='form-login'>
+        <form action="/login" method="post" name='form-login'>
             <% include partials/form-inputs.ejs %>
 
-            <button type="submit" value="Login">Login</button>
+            <button type="submit" value="Login" id="login">Login</button>
         </form>
 
-        <p>Need an account? <a href="/signup" class="singup">Signup</a></p>
+        <p>Need an account? <a href="/signup" class="singup" >Signup</a></p>
     </div>
+
+</div>
+    <script src="home-tasks.js"></script>
 
 </body>
 </html>

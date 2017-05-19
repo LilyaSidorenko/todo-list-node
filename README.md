@@ -49,50 +49,50 @@ After authorization user should be able to:
     <tr class="row">
         <td style="text-align:left;vertical-align:top; padding: 8px">POST</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">/login</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">Form data</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px"></td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">Log in</td>
     </tr>
     <tr class="row">
-        <td style="text-align:left;vertical-align:top; padding: 8px">GET</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">POST</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">/signup</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">signup.ejs</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">signup.html</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">Retrieves singup form</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">Retrieves singup data</td>
     </tr>
     <tr class="row">
         <td style="text-align:left;vertical-align:top; padding: 8px">POST</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">/signup</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">Form data</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px"></td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">Singup</td>
     </tr>
     <tr class="row">
-        <td style="text-align:left;vertical-align:top; padding: 8px">GET</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">/work-tasks</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">work-tasks.ejs</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">work-tasks.html</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">Retrieves list of tasks</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">POST</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">/tasks</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">Retrieves data of tasks</td>
     </tr>
     <tr class="row">
         <td style="text-align:left;vertical-align:top; padding: 8px">POST</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">/work-tasks/tasks</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">userId, title, type</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">new item</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">/add-task</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">Add new item</td>
     </tr>
     <tr class="row">
         <td style="text-align:left;vertical-align:top; padding: 8px">PUT</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">/work-tasks/tasks</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">req.body.title</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">req.body.classDone</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">/update</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">Update item to "done"</td>
     </tr>
     <tr class="row">
         <td style="text-align:left;vertical-align:top; padding: 8px">DELETE</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">/work-tasks/tasks</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px">req.body.title</td>
-        <td style="text-align:left;vertical-align:top; padding: 8px"></td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">/remove</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
+        <td style="text-align:left;vertical-align:top; padding: 8px">json</td>
         <td style="text-align:left;vertical-align:top; padding: 8px">Delete item</td>
     </tr>
     </tbody>

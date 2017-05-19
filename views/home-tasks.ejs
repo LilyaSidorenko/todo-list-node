@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<% include partials/head.ejs %>
-<body>
-<div class="app">
-    <a href="/categories" class="logout">Back to categories</a>
+<div class="app" id="todo-app">
     <form action="/home-tasks" method="POST" class="form" id="todo">
-        <% include partials/task-inputs.ejs %>
+	    <input class="input form__input" name="title" id="title">
+	    <button class="btn form__submit-btn" type="submit" >Add</button>
     </form>
-    <% include partials/todo-list.ejs %>
+	<ul class="tasks todo-list" id="taskItem">
+		<li class="task todo-list__item <%= items[i].classDone %>" >
+			<button class="btn done">Done</button>
+			<button class="todo-list__item-content"><%= items[i].title %></button>
+			<button class="btn todo-list__item-remove delete" id=""></button>
+		</li>
+</ul>
 </div>
-<script src="home-tasks.js"></script>
-
-</body>
-</html>

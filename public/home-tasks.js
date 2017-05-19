@@ -7,15 +7,95 @@ function itemTemplate(data) {
 
     return item;
 }
-var add = document.getElementById("todo");
-var task = document.getElementById("taskItem");
-var update = document.getElementsByClassName("done");
-var del = document.getElementsByClassName("delete");
+
+function todoTemplate(data) {
+    var template = '<div class="app" id="todo-app">';
+    template += '<form action="/add-task" method="POST" class="form"  id="todo">';
+    template += '<input class="input form__input" name="title" id="title">';
+    template += '<button class="btn form__submit-btn" type="submit">Add</button>';
+    template += '</form>';
+
+        template += '<ul class="tasks todo-list" id="taskItem">';
+    for(var i = 1; i < data.result.length; i++) {
+        template += '<li class="task todo-list__item '  +(data.result[i].classDone)+'" >';
+        template += '<button class="btn done">Done</button>';
+        template += '<button class="todo-list__item-content">'+(data.result[i].title)+'</button>';
+        template += '<button class="btn todo-list__item-remove delete" id=""></button>';
+        template += '</li>';
+    }
+        template += '</ul>';
+
+
+    template += '</div>';
+    return template;
+}
+
+document.getElementById("login").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+
+    fetch("/login", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "email": document.getElementById("user").value,
+            "password": document.getElementById("pass").value,
+        })
+    })
+        .then(res => {
+
+            if (res.ok) return res.json();
+        })
+        .then(data => {
+            document.getElementById("main-container").innerHTML = (todoTemplate(data));
+
+            var add = document.getElementById("todo");
+            var task = document.getElementById("taskItem");
+
+            add.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                fetch("/add-task", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "title": document.getElementById("title").value,
+                        "type": "home"
+                    })
+                })
+                    .then(res => {
+
+                        if (res.ok) return res.json();
+                    })
+                    .then(data => {
+
+                        task.insertAdjacentHTML('afterbegin', itemTemplate(data));
+                        document.getElementById("title").value = '';
+
+
+                        removeTask();
+                        updateTask()
+
+                    })
+
+            removeTask();
+            updateTask()
+
+        })
+
+    })
+});
+
 var updateTask = function () {
+    var update = document.getElementsByClassName("done");
 
     for (var j = 0; j < update.length; j++) {
         update[j].addEventListener("click", function () {
-            fetch("/home-tasks/tasks", {
+            fetch("/update", {
                 method: "put",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -34,9 +114,11 @@ var updateTask = function () {
 };
 var removeTask = function () {
 
+    var del = document.getElementsByClassName("delete");
+
     for (var i = 0; i < del.length; i++) {
         del[i].addEventListener("click", function () {
-            fetch("/home-tasks/tasks", {
+            fetch("/remove", {
                 method: "delete",
                 headers: {
                     "Content-Type": "application/json"
@@ -55,31 +137,4 @@ var removeTask = function () {
         })
     }
 };
-add.addEventListener("submit", function (e) {
-    e.preventDefault();
 
-    fetch("/home-tasks/tasks", {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "title": document.getElementById("title").value,
-            "type": "home"
-        })
-    })
-        .then(res => {
-
-            if (res.ok) return res.json();
-        })
-        .then(data => {
-
-            task.insertAdjacentHTML('afterbegin', itemTemplate(data));
-            document.getElementById("title").value = '';
-            removeTask();
-            updateTask();
-        })
-
-});
-removeTask();
-updateTask();
