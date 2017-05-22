@@ -16,8 +16,8 @@ function todoTemplate(data) {
     template += '</form>';
 
         template += '<ul class="tasks todo-list" id="taskItem">';
-    for(var i = 1; i < data.result.length; i++) {
-        template += '<li class="task todo-list__item '  +(data.result[i].classDone)+'" >';
+    for(var i = 0; i < data.result.length; i++) {
+        template += '<li class="task todo-list__item ' +(data.result[i].classDone)+'">';
         template += '<button class="btn done">Done</button>';
         template += '<button class="todo-list__item-content">'+(data.result[i].title)+'</button>';
         template += '<button class="btn todo-list__item-remove delete" id=""></button>';
@@ -32,65 +32,137 @@ function todoTemplate(data) {
 
 document.getElementById("login-button").addEventListener("click", function (e) {
     e.preventDefault();
-
-
     fetch("/auth", {
         method: 'POST',
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
             "email": document.getElementById("user").value,
             "password": document.getElementById("pass").value,
-        })
+        }),
+
+
     })
         .then(res => {
 
             if (res.ok) return res.json();
+             else document.getElementById("message").innerHTML = 'Check your email or password';
+
         })
         .then(data => {
-            document.getElementById("main-container").innerHTML = (todoTemplate(data));
+            if (data) {
+                document.getElementById("main-container").innerHTML = (todoTemplate(data));
 
-            var add = document.getElementById("todo");
-            var task = document.getElementById("taskItem");
+                var add = document.getElementById("todo");
+                var task = document.getElementById("taskItem");
 
-            add.addEventListener("submit", function (e) {
-                e.preventDefault();
+                add.addEventListener("submit", function (e) {
+                    e.preventDefault();
 
-                fetch("/add-task", {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "title": document.getElementById("title").value,
-                        "type": "home"
+                    fetch("/add-task", {
+                        method: 'POST',
+                        credentials: 'include',
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "title": document.getElementById("title").value,
+                            "type": "home"
+                        })
                     })
-                })
-                    .then(res => {
+                        .then(res => {
 
-                        if (res.ok) return res.json();
-                    })
-                    .then(data => {
+                            if (res.ok) return res.json();
+                        })
+                        .then(data => {
+                            if (data) {
 
-                        task.insertAdjacentHTML('afterbegin', itemTemplate(data));
-                        document.getElementById("title").value = '';
+                                task.insertAdjacentHTML('afterbegin', itemTemplate(data));
+                                document.getElementById("title").value = '';
 
 
-                        removeTask();
-                        updateTask()
+                                removeTask();
+                                updateTask()
+                            }
 
-                    });
+                        });
 
-            removeTask();
-            updateTask()
 
-        })
+                });
+                removeTask();
+                updateTask()
+            }
 
     })
 });
+document.getElementById("singup-button").addEventListener("click", function (e) {
+    e.preventDefault();
+    fetch("/singup", {
+        method: 'POST',
+        credentials: 'include',
 
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "email": document.getElementById("user").value,
+            "password": document.getElementById("pass").value
+        }),
+
+
+    })
+        .then(res => {
+
+            if (res.ok) return res.json();
+            else document.getElementById("message").innerHTML = 'Write correct email or password';
+
+        })
+        .then(data => {
+            if (data) {
+                document.getElementById("main-container").innerHTML = (todoTemplate(data));
+
+                var add = document.getElementById("todo");
+                var task = document.getElementById("taskItem");
+
+                add.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    fetch("/add-task", {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "title": document.getElementById("title").value,
+                            "type": "home"
+                        })
+                    })
+                        .then(res => {
+
+                            if (res.ok) return res.json();
+                        })
+                        .then(data => {
+
+                            task.insertAdjacentHTML('afterbegin', itemTemplate(data));
+                            document.getElementById("title").value = '';
+
+
+                            removeTask();
+                            updateTask()
+
+                        });
+
+                })
+                removeTask();
+                updateTask()
+            }
+
+        })
+});
 var updateTask = function () {
     var update = document.getElementsByClassName("done");
 
@@ -98,12 +170,13 @@ var updateTask = function () {
         update[j].addEventListener("click", function () {
             fetch("/update", {
                 method: "put",
+                credentials: 'include',
+
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     "title": this.nextElementSibling.innerHTML,
                     "classDone": "class-done"
                 }),
-                credentials: 'include',
 
             })
                 .then(res => {

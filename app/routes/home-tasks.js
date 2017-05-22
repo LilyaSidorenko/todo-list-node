@@ -9,8 +9,8 @@ module.exports = (app, passport) => {
     app.post('/add-task', isLoggedIn, (req, res) => {
 
         const item = { userId: req.user._id.toString(), title: req.body.title , type: req.body.type};
-        mongoose.connection.db.collection('items').insert(item, (err) => {
-            if (err) return res.sendStatus(500, err);
+        mongoose.connection.db.collection('items').save(item, (err) => {
+            if (err) return res.sendStatus(500);
             res.status(200).json({msg: 'OK', item});
         });
         currentType = req.body.type;
