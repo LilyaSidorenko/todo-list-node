@@ -4,4 +4,4 @@ module.exports =  function isLoggedIn(req, res, next) {
 
     // res.redirect('/');
     res.sendStatus(401)
-}
+};

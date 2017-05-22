@@ -6,9 +6,17 @@ module.exports = (app, passport) => {
 
     //home tasks
 
+    app.post('/add-task', isLoggedIn, (req, res) => {
 
+        const item = { userId: req.user._id.toString(), title: req.body.title , type: req.body.type};
+        mongoose.connection.db.collection('items').insert(item, (err) => {
+            if (err) return res.sendStatus(500, err);
+            res.status(200).json({msg: 'OK', item});
+        });
+        currentType = req.body.type;
+    });
 
-    app.delete("/remove", (req, res) => {
+    app.delete("/remove", isLoggedIn,(req, res) => {
         const deletedItem = {title: req.body.title, id: req.body._id};
 
         mongoose.connection.db.collection('items')
@@ -18,7 +26,7 @@ module.exports = (app, passport) => {
                     res.status(200).json({msg: 'OK', deletedItem});
                 })
     });
-    app.put("/update", (req, res) => {
+    app.put("/update", isLoggedIn, (req, res) => {
         const newItem = {title: req.body.title, classDone: req.body.classDone};
         mongoose.connection.db.collection('items')
             .findOneAndUpdate({title: req.body.title}, {

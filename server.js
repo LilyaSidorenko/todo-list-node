@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB_URI);
 require('./config/passport')(passport);
 
 app.use(morgan('dev'));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
