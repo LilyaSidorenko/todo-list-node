@@ -30,11 +30,11 @@ function todoTemplate(data) {
     return template;
 }
 
-document.getElementById("login").addEventListener("submit", function (e) {
+document.getElementById("login-button").addEventListener("click", function (e) {
     e.preventDefault();
 
 
-    fetch("/login", {
+    fetch("/auth", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -89,7 +89,65 @@ document.getElementById("login").addEventListener("submit", function (e) {
 
     })
 });
+document.getElementById("singup-button").addEventListener("click", function (e) {
+    e.preventDefault();
 
+
+    fetch("/singup", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "email": document.getElementById("user").value,
+            "password": document.getElementById("pass").value,
+        })
+    })
+        .then(res => {
+
+            if (res.ok) return res.json();
+        })
+        .then(data => {
+            document.getElementById("main-container").innerHTML = (todoTemplate(data));
+
+            var add = document.getElementById("todo");
+            var task = document.getElementById("taskItem");
+
+            add.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                fetch("/add-task", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "title": document.getElementById("title").value,
+                        "type": "home"
+                    })
+                })
+                    .then(res => {
+
+                        if (res.ok) return res.json();
+                    })
+                    .then(data => {
+
+                        task.insertAdjacentHTML('afterbegin', itemTemplate(data));
+                        document.getElementById("title").value = '';
+
+
+                        removeTask();
+                        updateTask()
+
+                    })
+
+                removeTask();
+                updateTask()
+
+            })
+
+        })
+});
 var updateTask = function () {
     var update = document.getElementsByClassName("done");
 
@@ -137,4 +195,15 @@ var removeTask = function () {
         })
     }
 };
+document.getElementById("singup").addEventListener("click", function () {
+    var form = document.getElementById('form');
+    document.getElementById('singup-button').classList.remove('hidden');
+    document.getElementById('login-button').classList.add('hidden');
+    form.action = '/singup';
+    var inputs = document.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].value = "";
+    }
+});
+
 

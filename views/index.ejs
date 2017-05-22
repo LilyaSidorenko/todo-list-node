@@ -6,18 +6,19 @@
 <div id="main-container">
     <div id="login">
 
-        <h1>Login</h1>
+        <h1>Form</h1>
 
         <% include partials/mesages.ejs %>
 
         <!-- LOGIN FORM -->
-        <form action="/login" method="post" name='form-login'>
+        <form action="/auth" method="post" name='form-login' id="form">
             <% include partials/form-inputs.ejs %>
 
-            <button type="submit" value="Login" id="login">Login</button>
+            <button type="submit" value="Login" id="login-button">Login</button>
+            <button type="submit" id="singup-button" class="hidden">Singup</button>
         </form>
 
-        <p>Need an account? <a href="/signup" class="singup" >Signup</a></p>
+        <span>Need an account?</span> <a class="singup" id="singup">Signup</a>
     </div>
 
 </div>

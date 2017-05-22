@@ -351,3 +351,6 @@ button:hover {
 .class-done .done, .class-delete {
     display: none;
 }
+.hidden {
+    display: none;
+}
