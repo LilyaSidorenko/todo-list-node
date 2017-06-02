@@ -1,4 +1,4 @@
-var isLoggedIn = require('../../public/isloginin.js');
+var isLoggedIn = require('../utils/isloginin.js');
 var mongoose = require('mongoose');
 
 module.exports = (app, passport) => {

@@ -37,7 +37,6 @@ app.use(flash());
 
 require('./app/routes/user.js')(app, passport);
 require('./app/routes/home-tasks.js')(app, passport);
-require('./app/routes/work-tasks.js')(app, passport);
 
 app.listen(port);
 console.log('localhost:' + port);

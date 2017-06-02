@@ -10,6 +10,8 @@ function itemTemplate(data) {
 
 function todoTemplate(data) {
     var template = '<div class="app" id="todo-app">';
+    template += '<form action="/logout"> <button id="logout">Logout</button></form>';
+
     template += '<form action="/add-task" method="POST" class="form"  id="todo">';
     template += '<input class="input form__input" name="title" id="title">';
     template += '<button class="btn form__submit-btn" type="submit">Add</button>';
@@ -57,7 +59,25 @@ document.getElementById("login-button").addEventListener("click", function (e) {
 
                 var add = document.getElementById("todo");
                 var task = document.getElementById("taskItem");
+                document.getElementById("logout").addEventListener("click", function () {
+                    fetch("/logout", {
+                        method: 'POST',
+                        credentials: 'include',
 
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                    })
+                        .then(res => {
+
+                            if (res.ok) return res.json();
+
+
+                        })
+                        .then(data => {
+                            window.location.href = "/";
+                        });
+                })
                 add.addEventListener("submit", function (e) {
                     e.preventDefault();
 
@@ -152,11 +172,15 @@ document.getElementById("singup-button").addEventListener("click", function (e) 
 
 
                             removeTask();
-                            updateTask()
+                            updateTask();
+                            document.getElementById("logout").addEventListener("click", function () {
+                                console.log('dddd')
+                            })
 
                         });
 
                 })
+
                 removeTask();
                 updateTask()
             }
@@ -225,5 +249,3 @@ document.getElementById("singup").addEventListener("click", function () {
         inputs[i].value = "";
     }
 });
-
-
